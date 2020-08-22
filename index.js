@@ -1,14 +1,37 @@
+const { start } = require("repl");
+const { count } = require("console");
+
 (() => {
-  console.log(window.history);
-  const go = document.querySelector("#go");
-  go.addEventListener(
-    "click",
-    () => {
-      window.history.go();
+  window.addEventListener(
+    "beforeunload",
+    (ev) => {
+      ev.preventDefault();
+      ev.returnValue = "";
     },
     false
   );
-  window.setTimeout(() => {
-    window.history.go();
-  }, 10000);
+  const startBtn = document.querySelector("#start-btn");
+  const stopBtn = document.querySelector("#stop-btn");
+  const countEl = document.querySelector("#count");
+  let worker = null;
+
+  startBtn.addEventListener(
+    "click",
+    () => {
+      worker = new Worker("worker.js");
+      worker.onmessage = (ev) => {
+        if ("count" in ev.data) {
+          countEl.innerHTML = ev.data.count;
+        }
+      };
+    },
+    false
+  );
+  stopBtn.addEventListener(
+    "click",
+    () => {
+      worker.terminate();
+    },
+    false
+  );
 })();
