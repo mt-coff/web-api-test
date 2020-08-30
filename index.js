@@ -2,6 +2,22 @@ const { start } = require("repl");
 const { count } = require("console");
 
 (() => {
+  // enumerateDevices
+  const enuBtn = document.querySelector("#call-enumerate-devices");
+  const enuResult = document.querySelector("#enumerate-devices-result");
+  enuBtn.addEventListener(
+    "click",
+    () => {
+      if (!window.navigator.mediaDevices) {
+        enuResult.innerHTML = "cannot found mediaDevices";
+      }
+      window.navigator.mediaDevices.enumerateDevices().then((result) => {
+        enuResult.innerHTML = JSON.stringify(result);
+      });
+    },
+    false
+  );
+  // beforeunload
   window.addEventListener(
     "beforeunload",
     (ev) => {
