@@ -1,6 +1,3 @@
-const { start } = require("repl");
-const { count } = require("console");
-
 (() => {
   // enumerateDevices
   const enuBtn = document.querySelector("#call-enumerate-devices");
